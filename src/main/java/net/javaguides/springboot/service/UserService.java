@@ -45,4 +45,31 @@ public class UserService {
         return Optional.empty();
     }
 
+    public List<User> getAllUsers() {
+        return new ArrayList<>(userList);
+    }
+
+    public synchronized void addUser(User user) {
+        // assign id if missing or zero
+        int newId = 1;
+        for (User u : userList) {
+            if (u.getId() >= newId) newId = u.getId() + 1;
+        }
+        if (user.getId() == 0) {
+            user.setId(newId);
+        }
+        userList.add(user);
+        writeUsersToJson();
+    }
+
+    private void writeUsersToJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            java.nio.file.Path path = java.nio.file.Paths.get("src/main/resources/data/users.json");
+            mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
