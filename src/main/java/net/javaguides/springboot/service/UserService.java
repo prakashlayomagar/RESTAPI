@@ -1,7 +1,6 @@
 package net.javaguides.springboot.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +19,6 @@ public class UserService {
         userList.add(new User(2, "Jane Smith",28,"jane.smith@example.com"));
         userList.add(new User(3, "Bob Johnson",45,"bob.johnson@example.com"));
         userList.add(new User(4, "Alice Brown",22,"alice.brown@example.com"));
-        
-        userList.addAll(Arrays.asList(user1,user2,user3,user4));
     
     }
     
