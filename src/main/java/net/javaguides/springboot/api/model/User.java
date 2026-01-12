@@ -1,17 +1,23 @@
 package net.javaguides.springboot.api.model;
 
-public class User {
-	  private int id;
-	    private String name;
-	    private int age;
-	    private String email;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	    public User(int id, String name, int age, String email) {
-	        this.id = id;
-	        this.name = name;
-	        this.age = age;
-	        this.email = email;
-	    }
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User {
+	private int id;
+	private String name;
+	private int age;
+	private String email;
+
+	public User() {
+	}
+
+	public User(int id, String name, int age, String email) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.email = email;
+	}
 
 	    public int getId() {
 	        return id;
@@ -37,12 +43,12 @@ public class User {
 	        this.age = age;
 	    }
 
-	    public String getEmail() {
-	        return email;
-	    }
+		public String getEmail() {
+			return email;
+		}
 
-	    public void setEmail(String email) {
-	        this.email = email;
-	    }
+		public void setEmail(String email) {
+			this.email = email;
+		}
 
 }

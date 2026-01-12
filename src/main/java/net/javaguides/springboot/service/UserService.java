@@ -1,8 +1,13 @@
 package net.javaguides.springboot.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.stereotype.Service;
 
@@ -15,23 +20,29 @@ public class UserService {
      
     public UserService() {
         userList = new ArrayList<>();
-        userList.add(new User(1, "John Doe",32,"john.doe@example.com"));
-        userList.add(new User(2, "Jane Smith",28,"jane.smith@example.com"));
-        userList.add(new User(3, "Bob Johnson",45,"bob.johnson@example.com"));
-        userList.add(new User(4, "Alice Brown",22,"alice.brown@example.com"));
-    
+        loadUsersFromJson();
+    }
+
+    private void loadUsersFromJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        try (InputStream is = getClass().getResourceAsStream("/data/users.json")) {
+            if (is != null) {
+                List<User> users = mapper.readValue(is, new TypeReference<List<User>>() {});
+                userList.addAll(users);
+            }
+        } catch (IOException e) {
+            // if reading fails, keep empty list; log if desired
+            e.printStackTrace();
+        }
     }
     
     public Optional<User> getUser(Integer id){
-    	Optional <User> optional = Optional.empty();
-    	for(User user: userList) {
-    		if (id == user.getId()) {
-    			optional = Optional.of(user);
-    			return optional;
-    		}
-    	}
-		return optional;
-    	
+        for(User user: userList) {
+            if (id != null && id.equals(user.getId())) {
+                return Optional.of(user);
+            }
+        }
+        return Optional.empty();
     }
 
 }
